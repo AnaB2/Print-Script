@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Lexer {
+    +lex(input: String): List<Token>
+    -tokens: List<Token>
+}
+
+class Parser {
+    +parse(tokens: List<Token>): AST
+    -ast: AST
+}
+
+class Interpreter {
+    +interpret(ast: AST): void
+    -state: Map<String, Object>
+}
+
+class Runner {
+    +run(input: String): void
+    -lexer: Lexer
+    -parser: Parser
+    -interpreter: Interpreter
+}
+
+class Token {
+    -start: int
+    -end: int
+    -type: TokenType
+    -value: String
+}
+
+class AST {
+    -nodes: List<ASTNode>
+}
+
+Lexer --> Runner
+Parser --> Runner
+Interpreter --> Runner
+Lexer *-- Token
+Parser *-- Token
+Interpreter *-- AST
+
+'class Formatter {
+'    +format(ast: AST): String
+'}
+'
+'class StaticCodeAnalyzer {
+'    +analyze(ast: AST): Report
+'}
+
+'class CLI {
+'    +run(input: String)
+'    -lexer: Lexer
+'    -parser: Parser
+'    -interpreter: Interpreter
+'    -formatter: Formatter
+'    -analyzer: StaticCodeAnalyzer
+'}
+
+'CLI *-- Lexer
+'CLI *-- Parser
+'CLI *-- Interpreter
+'CLI *-- Formatter
+'CLI *-- StaticCodeAnalyzer
+
+@enduml
