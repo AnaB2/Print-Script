@@ -1,0 +1,6 @@
+package model
+
+interface SeparatorStrategy {
+
+    
+}
