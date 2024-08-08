@@ -10,6 +10,8 @@ enum class TokenType {
     ASSIGNATION,
     PARENTHESIS,
     BOOLEAN,
+    TYPE_OF_DATA,
+    FUNCTION,
     UNKNOWN
    }
 
