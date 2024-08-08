@@ -6,6 +6,7 @@ import model.token.TokenType
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+
 class Lexer(private val classifier: TkClassifier) {
 
 
@@ -25,7 +26,7 @@ class Lexer(private val classifier: TkClassifier) {
                 if (tokenType != TokenType.UNKNOWN) {
                     val startPos = Position(currentRow, matcher.start() + 1)
                     val endPos = Position(currentRow, matcher.end())
-                    tokens.add(Token( startPos, endPos,tokenType, tokenValue,))
+                    tokens.add(Token( tokenType, tokenValue,startPos, endPos,))
                 }
             }
             currentRow++

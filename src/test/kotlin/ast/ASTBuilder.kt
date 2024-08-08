@@ -2,9 +2,9 @@ package model.ast.ast
 
 import model.ast.ASTNode
 import model.ast.BasicNode
-import model.token.DefaultTokenType
 import model.token.Token
-import model.token.TokenPosition
+import model.token.Position
+import model.token.TokenType
 
 class ASTBuilder {
     fun buildAST(
@@ -15,7 +15,7 @@ class ASTBuilder {
         val line = lines[index]
         val parts = line.split(",")
 
-        val value = Token(DefaultTokenType.IDENTIFIER, parts[0], TokenPosition(0, 0), TokenPosition(0, 1))
+        val value = Token(TokenType.IDENTIFIER, parts[0], Position(0, 0), Position(0, 1))
 
         val node = BasicNode(token = value)
 
@@ -30,7 +30,7 @@ class ASTBuilder {
         level: Int = 0,
     ) {
         if (ast == null) return
-        println(" ".repeat(level * 2) + ast.getToken().getType().getName() + ": " + ast.getToken().getValue())
+//        println(" ".repeat(level * 2) + ast.getToken().getType().getName() + ": " + ast.getToken().getValue()), verificar esto que getname() ya no existe
         printAST(ast.getLeft(), level + 1)
         printAST(ast.getRight(), level + 1)
     }

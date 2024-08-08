@@ -3,8 +3,8 @@ package model.token
 class Token(
     private var type: TokenType,
     private var value: String,
-    private var initialPosition: TokenPosition,
-    private var finalPosition: TokenPosition,
+    private var initialPosition: Position,
+    private var finalPosition: Position,
 ) {
     fun getType(): TokenType {
         return type
@@ -14,11 +14,11 @@ class Token(
         return value
     }
 
-    fun getInitialPosition(): TokenPosition {
+    fun getInitialPosition(): Position {
         return initialPosition
     }
 
-    fun getFinalPosition(): TokenPosition {
+    fun getFinalPosition(): Position {
         return finalPosition
     }
 }

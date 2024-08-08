@@ -1,9 +1,9 @@
 package ast
 
 import model.ast.BasicNode
-import model.token.DefaultTokenType
 import model.token.Token
-import model.token.TokenPosition
+import model.token.Position
+import model.token.TokenType
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -11,8 +11,8 @@ class ASTTests {
 
     @Test
     fun `test print node with right child`() {
-        val printToken = Token(DefaultTokenType.FUNCTION, "print", TokenPosition(0, 0), TokenPosition(0, 5))
-        val literalToken = Token(DefaultTokenType.STRING_LITERAL, "Hello World", TokenPosition(0, 0), TokenPosition(0, 5))
+        val printToken = Token(TokenType.FUNCTION, "print", Position(0, 0), Position(0, 5))
+        val literalToken = Token(TokenType.TYPE_OF_DATA, "Hello World", Position(0, 0), Position(0, 5))
 
         val printNode = BasicNode(token = printToken)
         val stringNode = BasicNode(token = literalToken)
@@ -24,9 +24,9 @@ class ASTTests {
 
     @Test
     fun `test assignment node`() {
-        val assignToken = Token(DefaultTokenType.ASSIGN, "=", TokenPosition(1, 1), TokenPosition(1, 6))
-        val literalToken = Token(DefaultTokenType.NUMBER_LITERAL, "6", TokenPosition(2, 2), TokenPosition(3, 3))
-        val identifierToken = Token(DefaultTokenType.IDENTIFIER, "x", TokenPosition(1, 1), TokenPosition(1, 1))
+        val assignToken = Token(TokenType.ASSIGNATION, "=", Position(1, 1), Position(1, 6))
+        val literalToken = Token(TokenType.TYPE_OF_DATA, "6", Position(2, 2), Position(3, 3))
+        val identifierToken = Token(TokenType.IDENTIFIER, "x", Position(1, 1), Position(1, 1))
 
         val identifierNode = BasicNode(token = identifierToken)
         val literalNode = BasicNode(token = literalToken)
@@ -38,10 +38,10 @@ class ASTTests {
 
     @Test
     fun `test println node with expression`() {
-        val printlnToken = Token(DefaultTokenType.FUNCTION, "println", TokenPosition(1, 1), TokenPosition(1, 6))
-        val operatorToken = Token(DefaultTokenType.OPERATOR, "-", TokenPosition(2, 2), TokenPosition(3, 3))
-        val identifierXToken = Token(DefaultTokenType.IDENTIFIER, "x", TokenPosition(1, 1), TokenPosition(1, 1))
-        val identifierYToken = Token(DefaultTokenType.IDENTIFIER, "y", TokenPosition(1, 1), TokenPosition(1, 1))
+        val printlnToken = Token(TokenType.FUNCTION, "println", Position(1, 1), Position(1, 6))
+        val operatorToken = Token(TokenType.OPERATOR, "-", Position(2, 2), Position(3, 3))
+        val identifierXToken = Token(TokenType.IDENTIFIER, "x", Position(1, 1), Position(1, 1))
+        val identifierYToken = Token(TokenType.IDENTIFIER, "y", Position(1, 1), Position(1, 1))
 
         val identifierXNode = BasicNode(token = identifierXToken)
         val identifierYNode = BasicNode(token = identifierYToken)
