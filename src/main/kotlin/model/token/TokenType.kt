@@ -5,7 +5,8 @@ enum class TokenType {
     KEYWORD,
     PUNCTUATOR,
     OPERATOR,
-    LITERAL,
+    STRINGLITERAL,
+    NUMBERLITERAL,
     DECLARATOR,
     ASSIGNATION,
     PARENTHESIS,
@@ -15,5 +16,7 @@ enum class TokenType {
     CONDITIONAL,
     DATA_TYPE,
     ASSIGN,
-    UNKNOWN
+    UNKNOWN,
+    LITERAL,
+
 }

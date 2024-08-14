@@ -9,41 +9,63 @@ import java.util.regex.Pattern
 
 class Lexer(private val classifier: TkClassifier) {
 
+    private val patternMatcher = PatternMatcher(classifier.getStrategyMap())
 
-    fun execute(input: String): List<Token> {
-        val tokens = mutableListOf<Token>()
-        var currentRow = 1
+    fun execute(input: String): List<Token?> {
+        val tokens = mutableListOf<Token?>()
+        var row = 0
 
-        // Split input into lines to handle row positions
-        val lines = input.lines()
-        for (line in lines) {
-            // Process each line
-            val matcher = createMatcher(line)
-            while (matcher.find()) {
-                val tokenValue = matcher.group()
-                val tokenType = classifier.classify(tokenValue)
-
-                if (tokenType != TokenType.UNKNOWN) {
-                    val startPos = Position(currentRow, matcher.start() + 1)
-                    val endPos = Position(currentRow, matcher.end())
-                    tokens.add(Token( tokenType, tokenValue,startPos, endPos,))
-                }
-            }
-            currentRow++
+        input.lines().forEach { lineContent ->
+            processLine(lineContent, row, tokens)
+            row++
         }
+
         return tokens
     }
 
-    private fun createMatcher(input: String): Matcher {
-        val patternBuilder = StringBuilder()
-        for ((type, strategy) in classifier.getStrategyMap()) {
-            if (strategy is RegexTokenClassifier) {
-                patternBuilder.append("(${strategy.regex.pattern})|")
+    private fun processLine(lineContent: String, row: Int, tokens: MutableList<Token?>) {
+        val matcher = createMatcher(lineContent)
+        while (matcher.find()) {
+            val tokenValue = matcher.group()
+            val tokenType = classifier.classify(tokenValue)
+
+
+            if(tokenType == TokenType.LITERAL){
+                val actualValue = extractTokenValue(tokenType,matcher)
+                val startPos = Position(row,matcher.start()+1)
+                val endPos = Position(row, matcher.end() - 1)
+               tokens.add(Token(tokenType, actualValue, startPos,endPos))
             }
+
+            if (tokenType != TokenType.UNKNOWN) {
+                val actualValue = extractTokenValue(tokenType, matcher)
+                val startPos = Position(row, matcher.start())
+                val endPos = Position(row, matcher.end())
+                tokens.add(Token(tokenType, actualValue, startPos, endPos))
+            }
+
+            else{
+                throw IllegalArgumentException("Carácter inválido encontrado: '$tokenValue'")
+            }
+
+
         }
-        val pattern = Pattern.compile(patternBuilder.toString().removeSuffix("|"))
-        return pattern.matcher(input)
+    }
+
+    private fun createMatcher(lineContent: String): Matcher {
+        val pattern = patternMatcher.createPattern()
+        return pattern.matcher(lineContent)
+    }
+
+    private fun extractTokenValue(tokenType: TokenType, matcher: Matcher): String {
+        return when (tokenType) {
+            TokenType.STRINGLITERAL-> {
+                matcher.group().substring(1, matcher.group().length - 1)
+            }
+            else -> matcher.group() // For other token types
+        }
     }
 
 
 }
+

@@ -1,6 +1,7 @@
 package lexer
 
 import model.token.TokenType
+//Cambiar Nombre
 
 class TkClassifier(private val version:String) {
 
@@ -21,22 +22,33 @@ class TkClassifier(private val version:String) {
 
     // Configura las estrategias para la versión 1.0
     private fun initializeVersion10Strategies() {
-        strategyMap[TokenType.KEYWORD] = KeywordClassifier(setOf("let"))
-        strategyMap[TokenType.PARENTHESIS] = RegexTokenClassifier("\\(|\\)".toRegex())
-        strategyMap[TokenType.TYPE_OF_DATA] = RegexTokenClassifier("(string|number)".toRegex())
-        strategyMap[TokenType.OPERATOR] = RegexTokenClassifier("[+\\-*/%=><!&|^~]*".toRegex())
-        strategyMap[TokenType.LITERAL] = RegexTokenClassifier("""(?:"([^"]*)"|'([^']*)'|(\d+(?:\.\d+)?))""".toRegex())
-        strategyMap[TokenType.IDENTIFIER] = RegexTokenClassifier("""(?<!['"])[a-zA-Z][a-zA-Z0-9_]*(?!['"])""".toRegex())
-        strategyMap[TokenType.DECLARATOR] = RegexTokenClassifier("(:)".toRegex())
-        strategyMap[TokenType.ASSIGNATION] = RegexTokenClassifier("(=)".toRegex())
-        strategyMap[TokenType.PUNCTUATOR] = RegexTokenClassifier("[,;{}\\[\\]\r\n].*".toRegex())
-        strategyMap[TokenType.FUNCTION] = RegexTokenClassifier("println".toRegex())
+        strategyMap[TokenType.KEYWORD] = RegexTokenClassifier("""\blet\b""".toRegex())
+        strategyMap[TokenType.FUNCTION] = RegexTokenClassifier("""\bprintln\b""".toRegex())
+        strategyMap[TokenType.CONDITIONAL] = RegexTokenClassifier("""\bif\b|\belse\b""".toRegex())
+        strategyMap[TokenType.PARENTHESIS] = RegexTokenClassifier("""\(|\)""".toRegex())
+        strategyMap[TokenType.DECLARATOR] = RegexTokenClassifier(""":""".toRegex())
+        strategyMap[TokenType.ASSIGNATION] = RegexTokenClassifier("""=""".toRegex())
+        strategyMap[TokenType.TYPE_OF_DATA] = RegexTokenClassifier("""\bstring\b|\bnumber\b""".toRegex())
+        strategyMap[TokenType.OPERATOR] = RegexTokenClassifier("""[\+\-\*/%=><!&|^~]+""".toRegex()) // Cambié * a + para evitar cadenas vacías
+        strategyMap[TokenType.IDENTIFIER] = RegexTokenClassifier("""\b[a-zA-Z_][a-zA-Z0-9_]*\b""".toRegex())
+        strategyMap[TokenType.STRINGLITERAL] = RegexTokenClassifier("\'[^\']*\'|\"[^\"]*\"".toRegex())
+        strategyMap[TokenType.NUMBERLITERAL] = RegexTokenClassifier("[0-9]+(\\.[0-9]+)?".toRegex())
+
+
+        strategyMap[TokenType.PUNCTUATOR] = RegexTokenClassifier("""[{}()\[\],;.]""".toRegex())
+
     }
 
-    fun classify(input:String):TokenType{
-        for((type,strategy) in strategyMap){
-            if(strategy.classify(input)){
-                return type;
+
+
+    fun classify(input: String): TokenType {
+        if (input.isBlank()) {
+            return TokenType.UNKNOWN // Ignorar completamente los espacios en blanco
+        }
+
+        for ((type, strategy) in strategyMap) {
+            if (strategy.classify(input)) {
+                return type
             }
         }
 
