@@ -2,16 +2,23 @@ package parser
 
 import model.ast.ASTNode
 import model.token.Token
+import parser.factories.*
 
 class Parser {
     private val astNodes = mutableListOf<ASTNode>()
-    private val astFactory = BasicASTFactory()
+    private val factories = listOf<ASTFactory>(
+        AssignmentFactory(),
+        ConditionalFactory(),
+        DeclarationFactory(),
+        PrintlnFactory()
+    )
 
     fun execute(tokens: List<Token>): List<ASTNode> {
-        val tokenLines = splitIntoLines(tokens)
-        for (lineTokens in tokenLines) {
-            if (astFactory.canHandle(lineTokens)) {
-                astNodes.add(astFactory.createAST(lineTokens))
+        val lines = split(tokens)
+        for (line in lines) {
+            val factory = factories.find { it.canHandle(line) }
+            if (factory != null) {
+                astNodes.add(factory.createAST(line))
             } else {
                 throw Exception("Can't handle this sentence")
             }
@@ -19,7 +26,7 @@ class Parser {
         return astNodes
     }
 
-    private fun splitIntoLines(tokens: List<Token>): List<List<Token>> {
+    private fun split(tokens: List<Token>): List<List<Token>> {
         val lines = mutableListOf<List<Token>>()
         var currentLine = mutableListOf<Token>()
         for (token in tokens) {

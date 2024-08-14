@@ -1,5 +1,3 @@
-package ast
-
 import model.ast.BasicNode
 import model.token.Token
 import model.token.Position
