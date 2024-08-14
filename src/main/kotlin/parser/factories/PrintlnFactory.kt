@@ -1,25 +1,20 @@
-package parser.factories
+package parser
 
 import model.ast.ASTNode
-import model.ast.BasicNode
 import model.ast.PrintNode
+import model.ast.BasicNode
 import model.token.Token
-import parser.ASTFactory
 
 class PrintlnFactory : ASTFactory {
     override fun createAST(tokens: List<Token>): ASTNode {
         val root = PrintNode(token = tokens.find { it.getValue() == "println" }!!)
         val rightTokens = tokens.subList(2, tokens.size - 1)
-        root.setRight(createAssignedTree(rightTokens))
+        root.setRight(createOperationAST(rightTokens))
         return root
     }
 
     override fun canHandle(tokens: List<Token>): Boolean {
         return tokens.any { it.getValue() == "println" }
-    }
-
-    private fun createAssignedTree(tokens: List<Token>): ASTNode {
-        return createOperationAST(tokens)
     }
 
     private fun createOperationAST(tokens: List<Token>): ASTNode {

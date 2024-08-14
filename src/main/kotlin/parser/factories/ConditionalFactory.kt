@@ -1,11 +1,9 @@
-package parser.factories
+package parser
 
 import model.ast.ASTNode
 import model.ast.BasicNode
 import model.token.Token
 import model.token.TokenType
-import parser.ASTFactory
-import parser.Parser
 
 class ConditionalFactory : ASTFactory {
     override fun createAST(tokens: List<Token>): ASTNode {

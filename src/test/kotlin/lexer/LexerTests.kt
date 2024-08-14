@@ -3,13 +3,12 @@ package lexer
 import model.token.Position
 import model.token.Token
 import model.token.TokenType
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class LexerTests {
-    private val tkClassifier = TkClassifier("1.0")
+    private val tkClassifier = TokenClassifier("1.0")
     private val lexer = Lexer(tkClassifier)
 
 

@@ -18,5 +18,4 @@ enum class TokenType {
     ASSIGN,
     UNKNOWN,
     LITERAL,
-
 }

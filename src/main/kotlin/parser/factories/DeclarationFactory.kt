@@ -1,10 +1,9 @@
-package parser.factories
+package parser
 
 import model.ast.ASTNode
 import model.ast.BasicNode
 import model.token.Token
 import model.token.TokenType
-import parser.ASTFactory
 
 class DeclarationFactory : ASTFactory {
     override fun createAST(tokens: List<Token>): ASTNode {
@@ -12,8 +11,11 @@ class DeclarationFactory : ASTFactory {
         val identifierToken = tokens.find { it.getType() == TokenType.IDENTIFIER }!!
         val dataTypeToken = tokens.find { it.getType() == TokenType.DATA_TYPE }!!
 
-        root.setLeft(BasicNode(token = identifierToken))
-        root.setRight(BasicNode(token = dataTypeToken))
+        val declarationNode = BasicNode(token = tokens.find { it.getType() == TokenType.DECLARATOR }!!)
+        declarationNode.setLeft(BasicNode(token = identifierToken))
+        declarationNode.setRight(BasicNode(token = dataTypeToken))
+
+        root.setRight(declarationNode)
         return root
     }
 

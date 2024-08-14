@@ -1,3 +1,6 @@
+package interpreter
+
+import Interpreter
 import model.ast.*
 import model.token.Position
 import model.token.Token

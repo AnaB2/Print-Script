@@ -2,15 +2,14 @@ package parser
 
 import model.ast.ASTNode
 import model.token.Token
-import parser.factories.*
 
 class Parser {
     private val astNodes = mutableListOf<ASTNode>()
     private val factories = listOf<ASTFactory>(
         AssignmentFactory(),
         ConditionalFactory(),
-        DeclarationFactory(),
-        PrintlnFactory()
+        PrintlnFactory(),
+        DeclarationFactory()
     )
 
     fun execute(tokens: List<Token>): List<ASTNode> {
