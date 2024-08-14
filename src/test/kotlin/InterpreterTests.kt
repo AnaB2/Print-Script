@@ -1,4 +1,3 @@
-
 import model.ast.*
 import model.token.Position
 import model.token.Token
@@ -9,7 +8,7 @@ import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-class InterpreterTest {
+class InterpreterTests {
 
     private lateinit var interpreter: Interpreter
 

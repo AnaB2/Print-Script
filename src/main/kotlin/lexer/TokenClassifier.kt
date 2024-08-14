@@ -3,7 +3,7 @@ package lexer
 import model.token.TokenType
 //Cambiar Nombre
 
-class TkClassifier(private val version:String) {
+class TokenClassifier(private val version:String) {
 
     private val strategyMap: MutableMap<TokenType, TokenClassifierStrategy> = mutableMapOf();
 

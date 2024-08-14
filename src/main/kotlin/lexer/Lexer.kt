@@ -7,7 +7,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 
-class Lexer(private val classifier: TkClassifier) {
+class Lexer(private val classifier: TokenClassifier) {
 
     private val patternMatcher = PatternMatcher(classifier.getStrategyMap())
 
